@@ -1,0 +1,15 @@
+certifi==2018.8.24
+chardet==3.0.4
+Django==1.11.15
+djangorestframework==3.8.2
+dnspython==1.15.0
+httpie==0.9.9
+idna==2.7
+Pygments==2.2.0
+pylibmc==1.5.2
+python-etcd==0.4.5
+pytz==2018.5
+redis==2.10.6
+requests==2.19.1
+sherlock==0.3.1
+urllib3==1.23
