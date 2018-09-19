@@ -30,10 +30,7 @@ class ReservationAPI(APIView):
             serialized = ReservationSerializer(reservation)
             return Response(serialized.data, status=HTTP_200_OK)
         else:
-            serialized = Reservation.get_reservation_range()
-            # data = {}
-            # data['start_date'] = datetime.fromtimestamp(serialized.data['start_date']).isoformat()
-            # data['end_date'] = datetime.fromtimestamp(serialized.data['end_date']).isoformat()
+            serialized = ReservationSerializer(Reservation.get_reservation_range(), many=True)
             return Response(serialized.data, status=HTTP_200_OK)
 
     # Post is to confirm the reservation.

@@ -76,8 +76,7 @@ class TestReservationModel(TestCase):
         self.assertRaises(NotMinimumOneDayError, self.reservation_not_min_one.reserve, user = self.user)
         self.assertRaises(NotWithinOneMonth, self.reservation_not_max_30.reserve, user = self.user)
 
-
-    def test_range_reservation(self):
+    def test_get_range_reservation(self):
         one_day = 60 * 60 * 24
         current = int(time.time())
         start_date = current + 10 * one_day
@@ -149,10 +148,10 @@ class TestReservationView(TestCase):
     def test_get_reservation(self):
         client = Client(enforce_csrf_checks="False")
         response = client.get("/reservations/")
-        # print response
+        print response
         self.assertEqual(True, response is not None)
-        self.assertEqual(True, type(response.data["start_date"]) is int)
-        self.assertEqual(True, type(response.data["end_date"]) is int)
+        self.assertEqual(True, type(response.data[0]["start_date"]) is int)
+        self.assertEqual(True, type(response.data[0]["end_date"]) is int)
 
     def test_get_reservation_uuid(self):
         client = Client(enforce_csrf_checks="False")

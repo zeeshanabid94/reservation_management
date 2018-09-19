@@ -42,6 +42,11 @@ class Reservation(models.Model):
     # Returns a list of reservations between those dates.
     @classmethod
     def get_reservation_range(self, start_date = None, end_date = None):
+        if start_date == None:
+            start_date = two_day_later()
+
+        if end_date == None:
+            end_date = thirty_days_after()
         reservations_before = Reservation.objects.filter(end_date__gte = start_date).filter(start_date__lte = start_date)
         reservations_after = Reservation.objects.filter(start_date__lte = end_date).filter(end_date__gte = end_date)
 
