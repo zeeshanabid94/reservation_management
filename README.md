@@ -70,3 +70,7 @@ Response:```{"uuid":<uuid>, "start_date":<start>, "end_date":<end>}```
   Modifies the reservation with the given uuid to the specified start and end. Returns 404 if reservation not found.  
 Request:```{"start_date":<start> (Optional), "end_date":<end> (Optional), "uuid":<uuid>}```   
 Response```{"uuid":<uuid>, "start_date":<start>, "end_date":<end>}```
+
+# Things to do
+- Implement validation for modification requests using put.
+- Implement configurable option for displaying date in human friendly format.
