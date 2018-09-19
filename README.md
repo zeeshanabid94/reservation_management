@@ -26,14 +26,18 @@ cd reservation_management
 pip install -r requirements.txt
 ```
 
-5- Once the packages finish installing, run manage.py file in reservation_management folder.  
+5- Once the packages finish installing, run the following commands in order to migrate the database. This needs to be done once per setup.  
+```
+cd reservation_management
+python manage.py migrate
+```
+6- Now to run the local server, try:
 ```
 python manage.py runserver
 ```
-
 Note: To run the server, you have to be in the directory with manage.py. If you are in upper level reservation_management, then cd into the right dir.  
 
-6- You can view the data received in the browser.  
+7- You can view the data received in the browser. Going to the linke localhost:8000/reservations/, you will see a browseable api for you to test.
 
 Note: The api can easily be switched to json by changing configuration of django. To allow ease of testing and demonstration, the browser displays the data.  
 
