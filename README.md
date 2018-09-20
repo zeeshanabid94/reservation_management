@@ -49,7 +49,7 @@ end_date -> BigInt
 user -> Id of user who has this reserved  
 uuid -> UUID of the reservation  
 
-- GET /reservations/  
+- GET /reservations/   
   Displays the list of reservations between the date range 2 days from now to 32 days from now. This is the default start_date and end_date.  
 Response:```[{"uuid":<uuid>, "start_date":<start>, "end_date":<end>, "check_in":<check_in>, "check_out":<check_out>},...]  ```
 
@@ -57,11 +57,11 @@ Response:```[{"uuid":<uuid>, "start_date":<start>, "end_date":<end>, "check_in":
   Displays the list of reservations between the date range start to end. The start and end are integers and epoch time.  
 Response:```[{"uuid":<uuid>, "start_date":<start>, "end_date":<end>,"check_in":<check_in>, "check_out":<check_out>},...]```
 
-- GET /reservations/uuid 
+- GET /reservations/uuid  
   Displays the data for the reservation with uuid if it exists. Returns 404 if no reservation was found.  
 Response:```{"uuid":<uuid>, "start_date":<start>, "end_date":<end>,"check_in":<check_in>, "check_out":<check_out>}```
 
-- POST /reservations/uuid
+- POST /reservations/uuid  
   Reserves the reservation with UUID to the user with the fullname and email. Reserving is critical, and to avoid race conditions, a distributed three lock scheme is used using memcache and sherlock python package. Returns the reservation if it was reserved otherwise returns an error.  
 Request:```{"uuid":<uuid>, "start_date":<start>, "end_date":<end>, "fullname":<fullname>, "email":<email>}```  
 Response:```{"uuid":<uuid>, "start_date":<start>, "end_date":<end>,"check_in":<check_in>, "check_out":<check_out>}```  
