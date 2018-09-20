@@ -3,14 +3,14 @@ from __future__ import unicode_literals
 
 from django.test import TestCase, Client
 import unittest
-from models import Reservation
+from models import Reservation, round_to_next_checkout, round_to_prev_checkout
 from serializer import ReservationSerializer
 from errors import ClashError, NotMinimumOneDayError, NotWithinOneMonth
 import time
 import json
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.models import User
-import thread
+from datetime import datetime
 
 # Create your tests here.
 class TestReservationModel(TestCase):
@@ -113,7 +113,7 @@ class TestReservationModel(TestCase):
         reservation = Reservation(start_date = start_date, end_date = end_date)
         reservation.reserve(self.user)
 
-        range = Reservation.get_reservation_range(start_date * 5*one_day, end_date + 10 * one_day)
+        range = Reservation.get_reservation_range(start_date + 5*one_day, end_date + 10 * one_day)
         self.assertEqual(len(range), 1)
         self.assertEqual(range[0].start_date > end_date, True)
 
@@ -216,8 +216,8 @@ class TestReservationView(TestCase):
         print response
 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data[0]["start_date"], start)
-        self.assertEqual(response.data[0]["end_date"], end)
+        self.assertEqual(response.data[0]["start_date"], round_to_prev_checkout(start))
+        self.assertEqual(response.data[0]["end_date"], round_to_next_checkout(end))
 
     def test_list_reservation(self):
         one_day = 60*60*24
@@ -238,3 +238,14 @@ class TestReservationView(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), 2)
+
+class TestMisc(TestCase):
+    def test_round_to_checkout(self):
+        current = int(time.time())
+
+        checkout = round_to_next_checkout(current)
+
+        checkout_date = datetime.fromtimestamp(checkout)
+
+        self.assertEqual(checkout_date.hour, 23)
+        self.assertEqual(checkout_date.minute, 59)

@@ -9,7 +9,7 @@ from errors import UUIDNotUniqueError, ClashError, NotMinimumOneDayError, NotWit
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from sherlock import Lock
-
+from datetime import datetime
 locks = ["0-10-days", "10-20-days", "20-30-days"]
 
 # These methods return epoch time
@@ -18,12 +18,24 @@ locks = ["0-10-days", "10-20-days", "20-30-days"]
 def one_day():
     return 60*60*24
 def two_day_later():
-    return int(time.time()) + 60*60*24*2
+    return round_to_prev_checkout(int(time.time()) + 60*60*24*2)
+
 def get_unix_time():
     return int(time.time())
 
 def thirty_days_after():
-    return two_day_later() + 30*24*60*60
+    return round_to_next_checkout(two_day_later() + 30*24*60*60)
+
+def round_to_next_checkout(end_date):
+    date = datetime.fromtimestamp(float(end_date))
+    date = date.replace(hour=23, minute=59)
+    return time.mktime(date.timetuple())
+
+def round_to_prev_checkout(start_date):
+    date = datetime.fromtimestamp(float(start_date))
+    date = date.replace(hour=00, minute=00)
+    return time.mktime(date.timetuple())
+
 
 # The reservation model.
 # This is main consumeable object
@@ -38,15 +50,26 @@ class Reservation(models.Model):
     # The time can be cast to any time and timezone when it is displayed.
     # Hence, that logic can stay on the consuming end.
 
+    @property
+    def check_in(self):
+        return datetime.fromtimestamp(self.start_date).isoformat()
+
+    @property
+    def check_out(self):
+        return datetime.fromtimestamp(self.end_date).isoformat()
     # Given a start_date and end_date,
     # Returns a list of reservations between those dates.
     @classmethod
     def get_reservation_range(self, start_date = None, end_date = None):
         if start_date == None:
-            start_date = two_day_later()
+            start_date = round_to_prev_checkout(two_day_later())
+        else:
+            start_date = round_to_prev_checkout(start_date)
 
         if end_date == None:
-            end_date = thirty_days_after()
+            end_date = round_to_next_checkout(thirty_days_after())
+        else:
+            end_date = round_to_next_checkout(end_date)
         reservations_before = Reservation.objects.filter(end_date__gte = start_date).filter(start_date__lte = start_date)
         reservations_after = Reservation.objects.filter(start_date__lte = end_date).filter(end_date__gte = end_date)
 

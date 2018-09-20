@@ -8,6 +8,8 @@ class ReservationSerializer(Serializer):
     user = ReadOnlyField(source = "user.id")
     start_date = IntegerField()
     end_date = IntegerField()
+    check_in = ReadOnlyField()
+    check_out = ReadOnlyField()
     uuid = UUIDField()
 
     def create(self, validated_data):
