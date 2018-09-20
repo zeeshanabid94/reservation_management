@@ -5,7 +5,7 @@ from django.db import models
 from datetime import datetime, timedelta
 import time
 import uuid
-from errors import UUIDNotUniqueError, ClashError, NotMinimumOneDayError, NotWithinOneMonth
+from errors import *
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from sherlock import Lock
@@ -62,12 +62,12 @@ class Reservation(models.Model):
     @classmethod
     def get_reservation_range(self, start_date = None, end_date = None):
         if start_date == None:
-            start_date = round_to_prev_checkout(two_day_later())
+            start_date = two_day_later()
         else:
             start_date = round_to_prev_checkout(start_date)
 
         if end_date == None:
-            end_date = round_to_next_checkout(thirty_days_after())
+            end_date = thirty_days_after()
         else:
             end_date = round_to_next_checkout(end_date)
         reservations_before = Reservation.objects.filter(end_date__gte = start_date).filter(start_date__lte = start_date)
@@ -159,13 +159,14 @@ class Reservation(models.Model):
     # Tells if at the moment before save
     # Whether this date range is available
     def can_reserve(self):
-        if not self.min_one_day():
+        if not self.is_min_one_day():
             raise NotMinimumOneDayError(self)
-        if not self.max_one_month():
+        if not self.is_max_one_month():
             raise NotWithinOneMonth(self)
         if not self.no_overlaps():
             raise ClashError(self.start_date, self.end_date)
-
+        if not self.is_morethan_3_days():
+            raise MoreThan3DaysError(self)
         return True
 
     def no_overlaps(self):
@@ -183,12 +184,14 @@ class Reservation(models.Model):
 
     # Makes sure the reservation requested for meets
     # restrictions
-    def min_one_day(self):
+    def is_min_one_day(self):
         return self.start_date >= two_day_later()
 
-    def max_one_month(self):
+    def is_max_one_month(self):
         return self.start_date <= (24*60*60*30) + two_day_later()
 
+    def is_morethan_3_days(self):
+        return self.end_date - self.start_date <= 3 * one_day()
 
     def __str__(self):
         start = datetime.fromtimestamp(float(self.start_date))

@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework.status import *
 from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime
+from api_exceptions import NoReservations
 from django.contrib.auth.models import User
 class ReservationAPI(APIView):
     # Gets a reservation
@@ -26,11 +27,13 @@ class ReservationAPI(APIView):
             try:
                 reservation = Reservation.objects.get(uuid=uuid)
             except ObjectDoesNotExist as E:
-                return Response({"error":E.message}, status=HTTP_404_NOT_FOUND)
+                raise NoReservations()
             serialized = ReservationSerializer(reservation)
             return Response(serialized.data, status=HTTP_200_OK)
         else:
             serialized = ReservationSerializer(Reservation.get_reservation_range(), many=True)
+            if len(serialized.data) == 0:
+                raise NoReservations()
             return Response(serialized.data, status=HTTP_200_OK)
 
     # Post is to confirm the reservation.
@@ -60,7 +63,11 @@ class ReservationAPI(APIView):
     # Modifies the reservation.
     # Need to add check if modification can is valid
     def put(self, request, uuid, format = None):
-        reservation = Reservation.objects.get(uuid = uuid)
+        try:
+            reservation = Reservation.objects.get(uuid = uuid)
+        except ObjectDoesNotExist as E:
+            raise NoReservations
+
         serialized = ReservationSerializer(reservation, data = request.data)
         if serialized.is_valid():
             serialized.save()

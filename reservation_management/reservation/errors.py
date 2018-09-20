@@ -20,3 +20,10 @@ class NotWithinOneMonth(Exception):
     def __init__(self, reservation):
         self.message = "Your reservation start date has to be with in one month of today."
         self.reservation = reservation
+
+
+class MoreThan3DaysError(Exception):
+    def __init__(self, reservation):
+        self.message = "Reservations can only be for a maximum of 3 day."
+        self.reservation = reservation
+

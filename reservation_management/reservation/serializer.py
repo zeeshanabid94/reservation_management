@@ -5,9 +5,9 @@ from models import Reservation
 # serializing and deserializing
 # data in reservation objects
 class ReservationSerializer(Serializer):
-    user = ReadOnlyField(source = "user.id")
-    start_date = IntegerField()
-    end_date = IntegerField()
+    user = ReadOnlyField(source = "user.id", required=False)
+    start_date = IntegerField(required=False)
+    end_date = IntegerField(required=False)
     check_in = ReadOnlyField()
     check_out = ReadOnlyField()
     uuid = UUIDField()
