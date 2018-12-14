@@ -1,0 +1,8 @@
+.button {
+    display: flex;
+    padding: 5px;
+    background: var(--color-1);
+    border: none;
+    border-radius: 10px;
+    font-size: 23px;
+}
