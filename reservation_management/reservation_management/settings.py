@@ -14,6 +14,8 @@ import os
 import sherlock
 from sherlock import Lock
 
+DB = os.environ.get("DATABASE")
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -89,12 +91,23 @@ WSGI_APPLICATION = 'reservation_management.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+if DB:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'dfuhjthljlb4lo',
+            'USER': 'uvhrrsdfcrggot',
+            'PASSWORD': '9c1dd2dffe749d32b22717fb92c15fb55bbcfdb5f3bcf93f846eb7026b5f6f23',
+            'HOST': 'postgres://uvhrrsdfcrggot:9c1dd2dffe749d32b22717fb92c15fb55bbcfdb5f3bcf93f846eb7026b5f6f23@ec2-54-227-249-201.compute-1.amazonaws.com:5432/dfuhjthljlb4lo'
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
 
 
 # Password validation
