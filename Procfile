@@ -1,1 +1,1 @@
-worker: ./tasks.sh
+release: ./tasks.sh
