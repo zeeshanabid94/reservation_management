@@ -98,7 +98,7 @@ if DB:
             'NAME': 'dfuhjthljlb4lo',
             'USER': 'uvhrrsdfcrggot',
             'PASSWORD': '9c1dd2dffe749d32b22717fb92c15fb55bbcfdb5f3bcf93f846eb7026b5f6f23',
-            'HOST': 'postgres://uvhrrsdfcrggot:9c1dd2dffe749d32b22717fb92c15fb55bbcfdb5f3bcf93f846eb7026b5f6f23@ec2-54-227-249-201.compute-1.amazonaws.com:5432/dfuhjthljlb4lo'
+            'HOST': 'ec2-54-227-249-201.compute-1.amazonaws.com'
         }
     }
 else:
