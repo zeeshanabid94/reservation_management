@@ -1,4 +1,5 @@
 cd reservation_management
+python manage.py makemigrations
 python manage.py migrate
 cd frontend
 npm install
