@@ -28,4 +28,3 @@ windows_venv
 .idea
 .vscode
 static/*
-*/migrations/*

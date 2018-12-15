@@ -41,7 +41,7 @@ def round_to_prev_checkout(start_date):
 # This is main consumeable object
 # of this app
 class Reservation(models.Model):
-    user = models.OneToOneField(User, related_name="reservation", default=None) # User who has this reservation
+    user = models.OneToOneField(User, related_name="reservation") # User who has this reservation
     start_date = models.BigIntegerField(default=two_day_later) # start date of the reservation
     end_date = models.BigIntegerField(default=thirty_days_after) # end date of the reservation
     uuid = models.UUIDField(default=uuid.uuid4) # Unique ID to identify the reservation
