@@ -1,0 +1,22 @@
+{
+  "name": "reservation_management",
+  "version": "1.0.0",
+  "description": "A simple reservation management app in django with react frontend.",
+  "main": "reservation_management/frontend/src/index.js",
+  "scripts": {
+    "test": "react-scripts test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zeeshanabid94/reservation_management.git"
+  },
+  "keywords": [
+    "heroku"
+  ],
+  "author": "Zeeshan Abid",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zeeshanabid94/reservation_management/issues"
+  },
+  "homepage": "https://github.com/zeeshanabid94/reservation_management#readme"
+}
