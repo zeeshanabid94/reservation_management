@@ -27,7 +27,7 @@ SECRET_KEY = 'ga!23p96%^pqs)$6u=ft1k-z+3*2ypw948q)9z+e$5x^k*kpe$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['calendar-app-zeeshan.herokuapp.com']
 
 
 
