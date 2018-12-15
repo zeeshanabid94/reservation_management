@@ -14,8 +14,10 @@ import os
 import sherlock
 from sherlock import Lock
 
+DB = os.environ.get("DATABASE")
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = os.path.dirname(__file__) + "/../"
 
 
 # Quick-start development settings - unsuitable for production
@@ -27,9 +29,10 @@ SECRET_KEY = 'ga!23p96%^pqs)$6u=ft1k-z+3*2ypw948q)9z+e$5x^k*kpe$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', 'calendar-app-zeeshan.herokuapp.com']
 
-
+# Print BASE_DIR for reference in build.
+print(BASE_DIR)
 
 # Configure Sherlock's locks to use Redis as the backend,
 # never expire locks and retry acquiring an acquired lock after an
@@ -76,7 +79,11 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
             ],
         },
+        'DIRS': [
+            os.path.join(BASE_DIR, 'frontend/build')
+        ],
     },
+    
 ]
 
 WSGI_APPLICATION = 'reservation_management.wsgi.application'
@@ -85,12 +92,26 @@ WSGI_APPLICATION = 'reservation_management.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+if DB == "prod":
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'dfuhjthljlb4lo',
+            'USER': 'uvhrrsdfcrggot',
+            'PASSWORD': '9c1dd2dffe749d32b22717fb92c15fb55bbcfdb5f3bcf93f846eb7026b5f6f23',
+            'HOST': 'ec2-54-227-249-201.compute-1.amazonaws.com'
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'reservations',
+            'USER': 'Zeeshan',
+            'PASSWORD': 'Aa11Bb22',
+            'HOST': 'localhost'
+        }
+    }
 
 
 # Password validation
@@ -130,3 +151,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+STATICFILES_DIRS = [
+  os.path.join(BASE_DIR, 'frontend/build/static'),
+]

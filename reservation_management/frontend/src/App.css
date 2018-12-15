@@ -1,0 +1,46 @@
+:root {
+  --color-1:#2497cf;
+  --color-1-lighter:#9fdefd;
+  --color-2:#2441cf;
+  --color-3:#5c24cf;
+  --color-4:#b224cf;
+  --color-5:#cf2497;
+  --color-6:#cf2441;
+  background: var(--color-2)
+}
+h1 {
+  color: white;
+}
+.App {
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

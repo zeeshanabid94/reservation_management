@@ -137,17 +137,17 @@ class TestReservationView(TestCase):
             email="zabid@usc.edu"
         )
         one_day = 60*60*24
-        self.reservation_1 = Reservation(start_date=int(time.time()) + 4 * one_day,
-                                         end_date=int(time.time()) + 6 * one_day)
+        self.reservation_1 = Reservation(start_date=int(time.time()) + 2 * one_day,
+                                         end_date=int(time.time()) + 4 * one_day)
         self.reservation_2 = Reservation(start_date=int(time.time()) + 5 * one_day,
                                          end_date=int(time.time()) + 7 * one_day)
     def test_get_reservation(self):
+        self.reservation_1.reserve(self.user)
         client = Client(enforce_csrf_checks="False")
-        response = client.get("/reservations/")
-        print response
+        response = client.get("/reservations/.json")
+        print response.json()
         self.assertEqual(True, response is not None)
-        self.assertEqual(True, type(response.data[0]["start_date"]) is int)
-        self.assertEqual(True, type(response.data[0]["end_date"]) is int)
+        self.assertEqual(type(response.json()), list)
 
     def test_get_reservation_uuid(self):
         client = Client(enforce_csrf_checks="False")

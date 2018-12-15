@@ -10,6 +10,9 @@ from django.core.exceptions import ObjectDoesNotExist
 from datetime import datetime
 from api_exceptions import NoReservations
 from django.contrib.auth.models import User
+from django.shortcuts import render
+from django.views.decorators.csrf import ensure_csrf_cookie
+
 class ReservationAPI(APIView):
     # Gets a reservation
     # Within a range provided request has
@@ -31,13 +34,14 @@ class ReservationAPI(APIView):
             serialized = ReservationSerializer(reservation)
             return Response(serialized.data, status=HTTP_200_OK)
         else:
-            serialized = ReservationSerializer(Reservation.get_reservation_range(), many=True)
+            serialized = ReservationSerializer(Reservation.get_next_n_day(), many=True)
             if len(serialized.data) == 0:
                 raise NoReservations()
             return Response(serialized.data, status=HTTP_200_OK)
 
     # Post is to confirm the reservation.
     def post(self, request, uuid, format = None):
+        print(request.data)
         fullname, email = request.data["fullname"], request.data["email"]
         try:
             user = User.objects.get(email = email)
@@ -49,6 +53,7 @@ class ReservationAPI(APIView):
                 email = email
             )
         serialized = ReservationSerializer(data = request.data)
+        print(serialized.is_valid())
         if serialized.is_valid():
             try:
                 reserved = serialized.save()
@@ -56,8 +61,9 @@ class ReservationAPI(APIView):
                 serialized = ReservationSerializer(reserved)
                 return Response(serialized.data, status=HTTP_201_CREATED)
             except Exception as E:
+                print(E.message)
                 return Response(E.message, status=HTTP_406_NOT_ACCEPTABLE)
-
+        print(serialized.errors)
         return Response(serialized.errors, status=HTTP_417_EXPECTATION_FAILED)
 
     # Modifies the reservation.
@@ -83,3 +89,6 @@ class ReservationAPI(APIView):
         except ObjectDoesNotExist as E:
             return Response({"error":ObjectDoesNotExist.message}, status=HTTP_404_NOT_FOUND)
 
+@ensure_csrf_cookie
+def serve_app(request):
+    return render(request, 'index.html')

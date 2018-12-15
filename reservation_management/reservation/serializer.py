@@ -3,14 +3,14 @@ from models import Reservation
 
 # This class is responsible for
 # serializing and deserializing
-# data in reservation objects
+# data into reservation objects
 class ReservationSerializer(Serializer):
     user = ReadOnlyField(source = "user.id", required=False)
     start_date = IntegerField(required=False)
     end_date = IntegerField(required=False)
     check_in = ReadOnlyField()
     check_out = ReadOnlyField()
-    uuid = UUIDField()
+    uuid = UUIDField(required=False)
 
     def create(self, validated_data):
         return Reservation(**validated_data)

@@ -1,0 +1,3 @@
+export let reservationGet = [{"user":1,"start_date":1544463048,"end_date":1544464121,"check_in":"2018-12-10T17:30:48","check_out":"2018-12-10T17:48:41","uuid":"d68eb008-662c-4b58-86df-edddefb8f3de"},{"user":2,"start_date":1544486859,"end_date":1544488766,"check_in":"2018-12-11T00:07:39","check_out":"2018-12-11T00:39:26","uuid":"8d70cdcb-317a-4679-a79b-9de670d84583"},{"user":3,"start_date":1544540828,"end_date":1544545921,"check_in":"2018-12-11T15:07:08","check_out":"2018-12-11T16:32:01","uuid":"e3e32a2a-3419-417e-98bc-ea42b966e749"}]
+export let reservationGetUuid = {"user":1,"start_date":1544463048,"end_date":1544464121,"check_in":"2018-12-10T17:30:48","check_out":"2018-12-10T17:48:41","uuid":"d68eb008-662c-4b58-86df-edddefb8f3de"}
+

@@ -41,14 +41,14 @@ def round_to_prev_checkout(start_date):
 # This is main consumeable object
 # of this app
 class Reservation(models.Model):
-    user = models.OneToOneField(User, related_name="user", default=None) # User who has this reservation
+    user = models.OneToOneField(User, related_name="reservation") # User who has this reservation
     start_date = models.BigIntegerField(default=two_day_later) # start date of the reservation
     end_date = models.BigIntegerField(default=thirty_days_after) # end date of the reservation
     uuid = models.UUIDField(default=uuid.uuid4) # Unique ID to identify the reservation
 
     # Note: All time is stored in unix time (epoch time). This makes working internally easier.
     # The time can be cast to any time and timezone when it is displayed.
-    # Hence, that logic can stay on the consuming end.
+    # Hence, that logic can stay on the front end.
 
     @property
     def check_in(self):
@@ -57,6 +57,13 @@ class Reservation(models.Model):
     @property
     def check_out(self):
         return datetime.fromtimestamp(self.end_date).isoformat()
+
+    @classmethod
+    def get_next_n_day(class_object, n = 30):
+        reservations = Reservation.objects.filter(start_date__gte = time.time(),
+                                                end_date__lte = time.time() + n * one_day())
+
+        return list(reservations)
     # Given a start_date and end_date,
     # Returns a list of reservations between those dates.
     @classmethod
@@ -111,19 +118,19 @@ class Reservation(models.Model):
     # The system is using memcached as the lock store,
     # and python package sherlock to manage locks.
     def reserve(self, user):
-        locks = self.get_locks()
-        locks = map(lambda x: Lock(x), locks)
+        # locks = self.get_locks()
+        # locks = map(lambda x: Lock(x), locks)
 
-        for lock in locks:
-            lock.acquire()
+        # for lock in locks:
+            # lock.acquire()
         if self.can_reserve():
             self.user = user
             self.save()
-            for lock in locks:
-                lock.release()
+            # for lock in locks:
+                # lock.release()
         else:
-            for lock in locks:
-                lock.release()
+            # for lock in locks:
+                # lock.release()
             raise ClashError(self.start_date, self.end_date)
         return self
 

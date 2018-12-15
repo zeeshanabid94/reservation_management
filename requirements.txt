@@ -1,10 +1,12 @@
 certifi==2018.8.24
 chardet==3.0.4
-Django==1.11.15
+Django==1.11
 djangorestframework==3.8.2
 dnspython==1.15.0
+gunicorn==19.9.0
 httpie==0.9.9
 idna==2.7
+psycopg2==2.7.6.1
 Pygments==2.2.0
 pylibmc==1.5.2
 python-etcd==0.4.5

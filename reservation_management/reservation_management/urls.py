@@ -15,8 +15,14 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+import views
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^reservations/', include("reservation.urls"))
+    url(r'^reservations/', include("reservation.urls")),
+    url(r'manifest.json', views.manifest_view)
 ]
+
+urlpatterns += staticfiles_urlpatterns()
