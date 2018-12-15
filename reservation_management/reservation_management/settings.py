@@ -31,7 +31,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', 'calendar-app-zeeshan.herokuapp.com']
 
-
+# Print BASE_DIR for reference in build.
+print(BASE_DIR)
 
 # Configure Sherlock's locks to use Redis as the backend,
 # never expire locks and retry acquiring an acquired lock after an
@@ -91,7 +92,7 @@ WSGI_APPLICATION = 'reservation_management.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
-if DB:
+if DB == "prod":
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
