@@ -29,7 +29,7 @@ SECRET_KEY = 'ga!23p96%^pqs)$6u=ft1k-z+3*2ypw948q)9z+e$5x^k*kpe$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['calendar-app-zeeshan.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', 'calendar-app-zeeshan.herokuapp.com']
 
 
 
@@ -104,8 +104,11 @@ if DB:
 else:
     DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'reservations',
+            'USER': 'Zeeshan',
+            'PASSWORD': 'Aa11Bb22',
+            'HOST': 'localhost'
         }
     }
 
