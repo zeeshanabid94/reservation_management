@@ -1,0 +1,3 @@
+build:
+  pre:
+    - ./tasks.sh
