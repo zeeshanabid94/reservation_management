@@ -66,7 +66,7 @@ Response:```{"uuid":<uuid>, "start_date":<start>, "end_date":<end>,"check_in":<c
 Request:```{"uuid":<uuid>, "start_date":<start>, "end_date":<end>, "fullname":<fullname>, "email":<email>}```  
 Response:```{"uuid":<uuid>, "start_date":<start>, "end_date":<end>,"check_in":<check_in>, "check_out":<check_out>}```  
 
-- PUT /reservations/
+- PUT /reservations/uuid  
   Modifies the reservation with the given uuid to the specified start and end. Returns 404 if reservation not found.  
 Request:```{"start_date":<start> (Optional), "end_date":<end> (Optional), "uuid":<uuid>}```   
 Response```{"uuid":<uuid>, "start_date":<start>, "end_date":<end>,"check_in":<check_in>, "check_out":<check_out>}```
