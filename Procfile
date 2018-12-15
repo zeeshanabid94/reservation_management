@@ -1,1 +1,1 @@
-release: chmod u+x tasks.sh && ./release.sh
+release: chmod u+x tasks.sh && ./tasks.sh
